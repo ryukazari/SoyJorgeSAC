@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es" >
+  <head>
+    <meta charset="utf-8">
+    <title>Crear Cita MediKT</title>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <link rel="shortcut icon" href="logo.png">
+  </head>
+  <body>
+    <header >
+      <h1>MediKT</h1>
+    </header>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="buscarPaciente.html">Buscar Paciente</a></li>
+        <li><a href="registro.html">Registrar Paciente</a></li>
+        <li><a href="crearCita.html">Crear Cita</a></li>
+      </ul>
+    </nav>
+    <h1>CREAR CITA</h1>
+    <div class="container" id="advanced-search-form">
+        <h2>Hacer una Cita</h2>
+            <div class="form-group">
+              <div class="">
+                <label for="category">Fecha</label>
+                <input type="date" id="fecha" class="form-control" placeholder="Fecha de Cita" required/>
+              </div>
+              <div class="">
+                <label for="category">Hora</label>
+                <input type="time" id="hora" class="form-control" placeholder="Hora de Cita" required/>
+              </div>
+                <label for="category">Seleccione Doctor</label>
+                <select id ="_123" class="form-control"></select>
+                <label for="category">Seleccione Paciente</label>
+                <select id = "_1234" class="form-control"></select>
+            </div>
+            <div ></div>
+            <button class="btn btn-info btn-lg btn-responsive" id="crear" ></span> Hacer Cita</button>
+        </div>
+    </div>
+
+    <script>
+    $(document).ready(function(){
+      $("#crear").click(function() {
+        var hoy = new Date();
+        var fechaFormulario = document.getElementById("fecha");
+
+          var cita = new Object();
+          cita.fecha = document.getElementById('fecha').value;
+          cita.hora = document.getElementById('hora').value;
+          cita.id_medico = document.getElementById('_123').value;
+          cita.id_paciente = document.getElementById('_1234').value;
+          console.log(JSON.stringify(cita));
+          $.ajax({
+            type:'POST',
+            url:"http://18.219.10.95:3000/separarCita",
+            data: JSON.stringify(cita),
+            headers:{
+              "Accept":"application/json",
+              "Content-Type":"application/json"
+            },
+            success: function(data, success){
+              alert("Cita Creada");
+              console.log(success);
+            }
+          });
+          return false;
+      });
+    });
+
+    //Listar Doctores////////////////////////////////////////////////////////////////////////////////
+      $(function() {
+        $.ajax({
+          type:'GET',
+          url:"http://18.219.10.95:3000/ListDoctors",
+          success: function(data, success){
+            console.log(data); //El json de respuesta
+            console.log(data["data"]); //La data que se recibe
+            var arreglo = [];
+            var x = document.getElementById("_123");
+            for (var i = 0; i < data["data"].length; i++) {
+              var miOption=document.createElement("option");
+              miOption.text = data["data"][i]["nombre_medico"];
+              miOption.setAttribute("value",data["data"][i]["id_medico"]);
+              x.add(miOption);
+            }
+          }
+        });
+
+        return false;
+      });
+
+    //Listar Pacientes ////////////////////////////////////////////////////////////////////////////////
+        $(function() {
+          $.ajax({
+            type:'GET',
+            url:"http://18.219.10.95:3000/ListPatients",
+            success: function(data, success){
+              //console.log(data); //El json de respuesta
+              //console.log(data["data"]); //La data que se recibe
+              var arreglo = [];
+              var x = document.getElementById("_1234");
+              for (var i = 0; i < data["data"].length; i++) {
+                var miOption=document.createElement("option");
+                miOption.text = data["data"][i]["nombre_paciente"];
+                miOption.setAttribute("value",data["data"][i]["id_pacienteint"]);
+                x.add(miOption);
+              }
+            }
+          });
+          return false;
+        });
+
+    </script>
+
+  </body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es" >
+  <head>
+    <meta charset="utf-8">
+    <title>Registrar MediKT</title>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <link rel="shortcut icon" href="logo.png">
+  </head>
+  <body>
+    <header >
+      <h1>MediKT</h1>
+    </header>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="buscarPaciente.html">Buscar Paciente</a></li>
+        <li><a href="registro.html">Registrar Paciente</a></li>
+        <li><a href="crearCita.html">Crear Cita</a></li>
+      </ul>
+    </nav>
+    <h1>REGISTAR PACIENTE</h1>
+    <div class="container" id="advanced-search-form">
+        <h2>Formulario de Registro</h2>
+        <div>
+            <div class="form-group">
+                <label for="first-name">Nombre</label>
+                <input type="text" class="form-control" placeholder="Nombres" id="nombre">
+            </div>
+            <div class="form-group">
+                <label for="first-name">Name</label>
+                <input type="text" class="form-control" placeholder="Apellidos" id="apellido">
+            </div>
+            <div class="form-group">
+                <label for="number">DNI</label>
+                <input type="text" class="form-control" placeholder="DNI" id="dni">
+            </div>
+            <div class="form-group">
+                <label for="number">Numero Telefonico</label>
+                <input type="text" class="form-control" placeholder="Numero telefonico" id="telefono">
+            </div>
+            <div class="form-group">
+                <label for="number">N° Seguro Social</label>
+                <input type="text" class="form-control" placeholder="Seguro Social" id="numero_seguro_social">
+            </div>
+            <div class="form-group">
+                <label for="age">Domicilio</label>
+                <input type="text" class="form-control" placeholder="Domicilio" id="domicilio">
+            </div>
+            <div class="form-group">
+                <label for="text">Provincia</label>
+                <input type="text" class="form-control" placeholder="Provincia" id="provincia">
+            </div>
+            <div class="form-group">
+                <label for="text">N° Historial Clinico</label>
+                <input type="text" class="form-control" placeholder="Historial Clinico" id="numero_historial_clinico">
+            </div>
+            <div class="form-group">
+                <label for="text">Observaciones</label>
+                <input type="text" class="form-control" placeholder="Observaciones" id="observaciones">
+            </div>
+            <button class="btn btn-info btn-lg btn-responsive" id="registrar" ></span>Registrar</button>
+        </div>
+    </div>
+
+    <script>
+    $(document).ready(function(){
+
+      $("#registrar").click(function() {
+        var paciente = new Object();
+        paciente.numero_seguro_social = document.getElementById('numero_seguro_social').value;
+        paciente.nombre = document.getElementById('nombre').value;
+        paciente.apellido = document.getElementById('apellido').value;
+        paciente.domicilio = document.getElementById('domicilio').value;
+        paciente.provincia = document.getElementById('provincia').value;
+        paciente.telefono = document.getElementById('telefono').value;
+        paciente.numero_historial_clinico = document.getElementById('numero_historial_clinico').value;
+        paciente.observaciones = document.getElementById('observaciones').value;
+        paciente.dni = document.getElementById('dni').value;
+        console.log(JSON.stringify(paciente));
+        $.ajax({
+          type:'POST',
+          url:"http://18.219.10.95:3000/crearPaciente",
+          data: JSON.stringify(paciente),
+          headers:{
+            "Accept":"application/json",
+            "Content-Type":"application/json"
+          },
+          success: function(data, success){
+            alert("Registrado");
+            console.log(success);
+          }
+        });
+        return false;
+      });
+
+    });
+
+    </script>
+
+  </body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es" >
+  <head>
+    <meta charset="utf-8">
+    <title>Buscar Paciente MediKT</title>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <link rel="shortcut icon" href="logo.png">
+  </head>
+  <body>
+    <header >
+      <h1>MediKT</h1>
+    </header>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="buscarPaciente.html">Buscar Paciente</a></li>
+        <li><a href="registro.html">Registrar Paciente</a></li>
+        <li><a href="crearCita.html">Crear Cita</a></li>
+      </ul>
+    </nav>
+    <h1>BUSCAR PACIENTE</h1>
+    <div>Ingrese DNI del paciente:<br>
+      <input type="text" id="dni1" placeholder="DNI..." value="" required/>
+      <button type="submit" id="buscar">BUSCAR</button><br>
+      <h3 id="encontrado"></h3>
+      <span id="crear"></span>
+      <a href="registro.html" id="crealo"></a><br>
+      <span id="nn"></span>
+      <span id="nombreEncontrado"> </span>
+      <span id="apellidoEncontrado"></span><br>
+      <span id="idd"></span>
+      <span id="idEncontrado"></span><br>
+      <span id="num"></span>
+      <span id="numEncontrado"></span><br>
+      <span id="seg"></span>
+      <span id="seguroEncontrado"></span><br>
+      <span id="tel"></span>
+      <span id="telefonoEncontrado"></span><br>
+      <span id="domicilio"></span>
+      <span id="domicilioEncontrado"></span><br>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $("#buscar").click(function() {
+          var dni = document.getElementById('dni1').value;
+          console.log(dni);
+          $.ajax({
+            type:'GET',
+            url:"http://18.219.10.95:3000/existePaciente="+dni,
+            success: function(data, success){
+              console.log(data); //El json de respuesta
+              console.log(data["data"]); //La data que se recibe
+              if (data["data"].length>0) {
+                //document.getElementById('nombreEncontrado').innerHTML=data["data"][0]["nombre_paciente"];
+                document.getElementById('encontrado').innerHTML="PACIENTE ENCONTRADO";
+                document.getElementById('nombreEncontrado').innerHTML=data["data"][0]["nombre_paciente"];
+                document.getElementById('apellidoEncontrado').innerHTML=data["data"][0]["apellido_paciente"];
+                document.getElementById('idEncontrado').innerHTML=data["data"][0]["id_pacienteint"];
+                document.getElementById('numEncontrado').innerHTML=data["data"][0]["numero_historial_clinico"];
+                document.getElementById('seguroEncontrado').innerHTML=data["data"][0]["numero_seguro_social"];
+                document.getElementById('telefonoEncontrado').innerHTML=data["data"][0]["numero_telefono"];
+                document.getElementById('domicilioEncontrado').innerHTML=data["data"][0]["domicilio_habitual"];
+                document.getElementById('nn').innerHTML=" Nombres y Apellidos: ";
+                document.getElementById('idd').innerHTML=" Id del paciente: ";
+                document.getElementById('num').innerHTML=" N° Historial Medico: ";
+                document.getElementById('seg').innerHTML=" N° Seguro Social: ";
+                document.getElementById('tel').innerHTML=" Telefono: ";
+                document.getElementById('domicilio').innerHTML=" Domicilio: ";
+                document.getElementById('crear').innerHTML="";
+                document.getElementById('crealo').innerHTML="";
+              }else {
+                document.getElementById('encontrado').innerHTML="No se encontro al paciente";
+                document.getElementById('crear').innerHTML="Si desea registrarlo...";
+                document.getElementById('crealo').innerHTML=" Click Aqui!";
+                document.getElementById('nombreEncontrado').innerHTML="";
+                document.getElementById('apellidoEncontrado').innerHTML="";
+                document.getElementById('idEncontrado').innerHTML="";
+                document.getElementById('numEncontrado').innerHTML="";
+                document.getElementById('seguroEncontrado').innerHTML="";
+                document.getElementById('telefonoEncontrado').innerHTML="";
+                document.getElementById('domicilioEncontrado').innerHTML="";
+                document.getElementById('nn').innerHTML="";
+                document.getElementById('idd').innerHTML="";
+                document.getElementById('num').innerHTML="";
+                document.getElementById('seg').innerHTML="";
+                document.getElementById('tel').innerHTML="";
+                document.getElementById('domicilio').innerHTML="";
+              }
+            }
+          });
+          return false;
+        });
+      });
+    </script>
+  </body>
+</html>

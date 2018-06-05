@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+  </head>
+  <body>
+    <div class="container">
+      <form id="existenciaPaciente">
+        <p1>Existe paciente con DNI</p1><br>
+        <input type="text" id="dni1" placeholder="DNI..." value="" required/>
+        <input type="text" id="nombreEncontrado" placeholder="Nombre..." disabled/>
+        <button type="submit" id="buscar"/>DALE!
+      </form>
+    </div>
+    <br>
+    <div class="container">
+      <form id="nuevoPaciente">
+        <p1>Crear nuevo paciente</p1><br>
+        <input type="text" id="numero_seguro_social" placeholder="N�mero Seguro Social" required/>
+        <input type="text" id="nombre" placeholder="Nombre de Paciente" required/>
+        <input type="text" id="apellido" placeholder="Apellido de Paciente" required/>
+        <br>
+        <input type="text" id="domicilio" placeholder="Domicilio habitual" required/>
+        <input type="text" id="provincia" placeholder="Provincia" required/>
+        <input type="text" id="telefono" placeholder="Telefono" required />
+        <br>
+        <input type="text" id="numero_historial_clinico" placeholder="Numero Historial Clinico"/ required>
+        <input type="text" id="observaciones" placeholder="observaciones" required/>
+        <input type="text" id="dni" placeholder="DNI" required/>
+        <button type="submit" id="registrar"/>DALE!
+      </form>
+    </div>
+    <div class="container">
+      <form id="crearCita">
+        <p1>Crear nueva Cita</p1><br>
+        <input type="date" id="fecha" placeholder="Fecha de Cita" required/>
+        <input type="time" id="hora" placeholder="Hora de Cita" required/>
+        <br>
+        <select id ="_123"></select>
+        <select id = "_1234"></select>
+        <br>
+        <button type="submit" id="crear"/>DALE!
+      </form>
+    </div>
+
+    <script>
+    $(document).ready(function(){
+      $("#buscar").click(function() {
+        var dni = document.getElementById('dni1').value;
+        console.log(dni);
+        $.ajax({
+          type:'GET',
+          url:"http://18.219.10.95:3000/existePaciente="+dni,
+          success: function(data, success){
+            console.log(data); //El json de respuesta
+            console.log(data["data"]); //La data que se recibe
+            if (data["data"].length>0) {
+              document.getElementById('nombreEncontrado').value=data["data"][0]["nombre_paciente"];
+            }else {
+              document.getElementById('nombreEncontrado').value="No se encontro al paciente";
+            }
+          }
+        });
+        return false;
+      });
+
+      $("#registrar").click(function() {
+        var paciente = new Object();
+        paciente.numero_seguro_social = document.getElementById('numero_seguro_social').value;
+        paciente.nombre = document.getElementById('nombre').value;
+        paciente.apellido = document.getElementById('apellido').value;
+        paciente.domicilio = document.getElementById('domicilio').value;
+        paciente.provincia = document.getElementById('provincia').value;
+        paciente.telefono = document.getElementById('telefono').value;
+        paciente.numero_historial_clinico = document.getElementById('numero_historial_clinico').value;
+        paciente.observaciones = document.getElementById('observaciones').value;
+        paciente.dni = document.getElementById('dni').value;
+        console.log(JSON.stringify(paciente));
+        $.ajax({
+          type:'POST',
+          url:"http://18.219.10.95:3000/crearPaciente",
+          data: JSON.stringify(paciente),
+          headers:{
+            "Accept":"application/json",
+            "Content-Type":"application/json"
+          },
+          success: function(data, success){
+            alert("Registrado");
+            console.log(success);
+          }
+        });
+        return false;
+      });
+
+      $("#crear").click(function() {
+        var hoy = new Date();
+        var fechaFormulario = document.getElementById("fecha");
+
+        if(hoy <= fechaFormulario){
+          var cita = new Object();
+          cita.fecha = document.getElementById('fecha').value;
+          cita.hora = document.getElementById('hora').value;
+          cita.id_medico = document.getElementById('_123').value;
+          cita.id_paciente = document.getElementById('_1234').value;
+          console.log(JSON.stringify(cita));
+          $.ajax({
+            type:'POST',
+            url:"http://18.219.10.95:3000/separarCita",
+            data: JSON.stringify(cita),
+            headers:{
+              "Accept":"application/json",
+              "Content-Type":"application/json"
+            },
+            success: function(data, success){
+              alert("Cita Creada");
+              console.log(success);
+            }
+          });
+          return false;
+      }else{
+          console.log("JO DER TIO")
+      }
+      });
+    });
+
+//Listar Doctores////////////////////////////////////////////////////////////////////////////////
+      $(function() {
+        $.ajax({
+          type:'GET',
+          url:"http://18.219.10.95:3000/ListDoctors",
+          success: function(data, success){
+            console.log(data); //El json de respuesta
+            console.log(data["data"]); //La data que se recibe
+            var arreglo = [];
+            var x = document.getElementById("_123");
+            for (var i = 0; i < data["data"].length; i++) {
+              var miOption=document.createElement("option");
+              miOption.text = data["data"][i]["nombre_medico"];
+              miOption.setAttribute("value",data["data"][i]["id_medico"]);
+              x.add(miOption);
+            }
+          }
+        });
+
+        return false;
+      });
+
+//Listar Pacientes ////////////////////////////////////////////////////////////////////////////////
+            $(function() {
+              $.ajax({
+                type:'GET',
+                url:"http://18.219.10.95:3000/ListPatients",
+                success: function(data, success){
+                  //console.log(data); //El json de respuesta
+                  //console.log(data["data"]); //La data que se recibe
+                  var arreglo = [];
+                  var x = document.getElementById("_1234");
+                  for (var i = 0; i < data["data"].length; i++) {
+                    var miOption=document.createElement("option");
+                    miOption.text = data["data"][i]["nombre_paciente"];
+                    miOption.setAttribute("value",data["data"][i]["id_pacienteint"]);
+                    x.add(miOption);
+                  }
+                }
+              });
+              return false;
+            });
+
+    </script>
+  </body>
+</html>
