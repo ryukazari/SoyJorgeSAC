@@ -1,14 +1,15 @@
 $(function() {
 
+  var arr;
+
     $("#buscar").click(function() {
       var dni = document.getElementById('dni1').value;
-      console.log(dni);
       $.ajax({
         type:'GET',
         url:"http://18.219.10.95:1706/existePaciente="+dni,
         success: function(data, success){
-          console.log(data); //El json de respuesta
-          console.log(data["data"]); //La data que se recibe
+          //console.log(data); //El json de respuesta
+          //console.log(data["data"]); //La data que se recibe
           if (data["data"].length>0) {
             //document.getElementById('nombreEncontrado').innerHTML=data["data"][0]["nombre_paciente"];
             document.getElementById('encontrado').innerHTML="PACIENTE ENCONTRADO";
@@ -62,7 +63,7 @@ $(function() {
         paciente.numero_seguro_social = document.getElementById('numero_seguro_social').value;
         paciente.observaciones = document.getElementById('observaciones').value;
         paciente.dni = document.getElementById('dni').value;
-        console.log(JSON.stringify(paciente));
+        //console.log(JSON.stringify(paciente));
         $.ajax({
           type:'POST',
           url:"http://18.219.10.95:1706/crearPaciente",
@@ -85,28 +86,51 @@ $(function() {
     });
 
     $("#crearCita").click(function() {
-      console.log("AAAAAAAAAA");
+              var flag = true;
             var fechaFormulario = document.getElementById("fecha");
-
               var cita = new Object();
               cita.fecha = document.getElementById('fecha').value;
               cita.hora = document.getElementById('hora').value;
               cita.id_medico = document.getElementById('_123').value;
               cita.id_paciente = document.getElementById('_1234').value;
               console.log(JSON.stringify(cita));
-              $.ajax({
-                type:'POST',
-                url:"http://18.219.10.95:1706/separarCita",
-                data: JSON.stringify(cita),
-                headers:{
-                  "Accept":"application/json",
-                  "Content-Type":"application/json"
-                },
-                success: function(data, success){
-                  alert("Cita Creada");
-                  console.log(success);
-                }
-              });
+              console.log(arr);
+              var f1 = new Date(cita.fecha).getTime();
+              var x =cita.hora;
+              var j = x+":00"
+              for (var i = 0; i < arr.length; i++) {
+                var f2 = new Date(arr[i]["fecha"]).getTime();
+                // console.log(new Date(cita.fecha));
+                // console.log(new Date(arr[i]["fecha"]));
+                // console.log(j);
+                // console.log(arr[i]["hora"]);
+                //j=== arr[i]["hora"]
+                // console.log(parseInt(cita.id_medico));
+                // console.log(arr[i]["id_medico"]);
+                //cita.fecha===arr[i]["fecha"] && cita.hora===arr[i]["hora"] && cita.id_medico===arr[i]["id.id_medico"]
+                if(f1 === f2 && j=== arr[i]["hora"] && parseInt(cita.id_medico) === arr[i]["id_medico"]){
+                  flag = flag && false;
+                }else{
+                  flag = flag && true;
+                    }
+              }
+              if(flag){
+                $.ajax({
+                  type:'POST',
+                  url:"http://18.219.10.95:1706/separarCita",
+                  data: JSON.stringify(cita),
+                  headers:{
+                    "Accept":"application/json",
+                    "Content-Type":"application/json"
+                  },
+                  success: function(data, success){
+                    alert("Cita Creada");
+                    console.log(success);
+                  }
+                });
+              }else{
+                alert("No se pudo crear la cita, Doctor Horario y Fecha coinciden con otra cita");
+              }
               return false;
           });
 
@@ -116,8 +140,8 @@ $(function() {
         type:'GET',
         url:"http://18.219.10.95:1706/ListDoctors",
         success: function(data, success){
-          console.log(data); //El json de respuesta
-          console.log(data["data"]); //La data que se recibe
+          //console.log(data); //El json de respuesta
+          //console.log(data["data"]); //La data que se recibe
           var arreglo = [];
           var x = document.getElementById("_123");
           for (var i = 0; i < data["data"].length; i++) {
@@ -152,6 +176,22 @@ $(function() {
       });
       return false;
     });
+
+///// CITAS ////////////////////////////////////////////////////////////////////////////
+      $(function getCitas() {
+        $.ajax({
+          type:'GET',
+          url:"http://18.219.10.95:1706/ListDates",
+          success: function(data, success){
+            //console.log(data); //El json de respuesta
+            //console.log(data["data"]); //La data que se recibe
+            arr = data["data"];
+            //console.log(arr);
+          }
+        });
+        return false;
+      });
+
 
 /*When clicking on Full hide fail/success boxes */
 $('#name').focus(function() {
