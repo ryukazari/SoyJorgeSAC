@@ -5,7 +5,7 @@ $(function() {
       console.log(dni);
       $.ajax({
         type:'GET',
-        url:"http://18.219.10.95:3000/existePaciente="+dni,
+        url:"http://35.231.249.253:3000/existePaciente="+dni,
         success: function(data, success){
           console.log(data); //El json de respuesta
           console.log(data["data"]); //La data que se recibe
@@ -65,7 +65,7 @@ $(function() {
         console.log(JSON.stringify(paciente));
         $.ajax({
           type:'POST',
-          url:"http://18.219.10.95:3000/crearPaciente",
+          url:"http://35.231.249.253:3000/crearPaciente",
           data: JSON.stringify(paciente),
           headers:{
             "Accept":"application/json",
@@ -96,7 +96,7 @@ $(function() {
               console.log(JSON.stringify(cita));
               $.ajax({
                 type:'POST',
-                url:"http://18.219.10.95:3000/separarCita",
+                url:"http://35.231.249.253:3000/separarCita",
                 data: JSON.stringify(cita),
                 headers:{
                   "Accept":"application/json",
@@ -114,7 +114,7 @@ $(function() {
     $(function() {
       $.ajax({
         type:'GET',
-        url:"http://18.219.10.95:3000/ListDoctors",
+        url:"http://35.231.249.253:3000/ListDoctors",
         success: function(data, success){
           console.log(data); //El json de respuesta
           console.log(data["data"]); //La data que se recibe
@@ -136,7 +136,7 @@ $(function() {
     $(function() {
       $.ajax({
         type:'GET',
-        url:"http://18.219.10.95:3000/ListPatients",
+        url:"http://35.231.249.253:3000/ListPatients",
         success: function(data, success){
           //console.log(data); //El json de respuesta
           //console.log(data["data"]); //La data que se recibe
