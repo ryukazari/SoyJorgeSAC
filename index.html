@@ -100,7 +100,7 @@
             <span id="seguroEncontrado"></span><br>
             <span id="tel"></span>
             <span id="telefonoEncontrado"></span><br>
-            <span id="domicilio"></span>
+            <span id="domicilios"></span>
             <span id="domicilioEncontrado"></span><br>
             <span id="crear"></span>
             <a href="registro.html" id="crealo"></a><br>
@@ -183,7 +183,7 @@
               <br>
               <div id="success"></div>
               <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-xl" id="registrar">Registrar</button>
+                <input type="button"  class="btn btn-primary btn-xl" id="registrar" value="Registrar"/>
               </div>
             </form>
           </div>
@@ -202,29 +202,33 @@
             <!-- The form should work on most web servers, but if the form is not working you may need to configure your web server differently. -->
             <form name="sentMessage" id="contactForm" novalidate="novalidate">
               <div class="control-group">
+                <label>Fecha</label>
                 <div class="form-group floating-label-form-group controls mb-0 pb-2">
-                  <label>Fecha</label>
+                  <label>Fecha Seleccionada c:</label>
                   <input class="form-control" id="fecha" type="date"  required="required" data-validation-required-message="Ingrese la fecha de la cita">
                   <p class="help-block text-danger"></p>
                 </div>
               </div>
               <div class="control-group">
+                <label>Hora</label>
                 <div class="form-group floating-label-form-group controls mb-0 pb-2">
-                  <label>Hora</label>
+                  <label>Hora Seleccionada c:</label>
                   <input class="form-control" id="hora" type="time"  required="required" data-validation-required-message="Ingrese la hora de la cita">
                   <p class="help-block text-danger"></p>
                 </div>
               </div>
               <div class="control-group">
+                <label>Seleccione Doctor</label>
                 <div class="form-group floating-label-form-group controls mb-0 pb-2">
-                  <label>Seleccione Doctor</label>
+                  <label>Doctor Seleccionado</label>
                   <select class="form-control" id="_123"  placeholder="Doctor" ></select>
                   <p class="help-block text-danger"></p>
                 </div>
               </div>
               <div class="control-group">
+                <label>Seleccione Paciente</label>
                 <div class="form-group floating-label-form-group controls mb-0 pb-2">
-                  <label>Seleccione Paciente</label>
+                  <label>Paciente Seleccionado</label>
                   <select class="form-control" id="_1234"  placeholder="Doctor" required="required" ></select>
                   <p class="help-block text-danger"></p>
                 </div>

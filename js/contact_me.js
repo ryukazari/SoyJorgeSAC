@@ -24,7 +24,7 @@ $(function() {
             document.getElementById('num').innerHTML=" N° Historial Medico: ";
             document.getElementById('seg').innerHTML=" N° Seguro Social: ";
             document.getElementById('tel').innerHTML=" Telefono: ";
-            document.getElementById('domicilio').innerHTML=" Domicilio: ";
+            document.getElementById('domicilios').innerHTML=" Domicilio: ";
             document.getElementById('crear').innerHTML="Si desea crear una cita...";
             document.getElementById('crealo').innerHTML="<a class=''nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger' href='#contact'>Click AQUI</a>";
           }else {
@@ -43,7 +43,7 @@ $(function() {
             document.getElementById('num').innerHTML="";
             document.getElementById('seg').innerHTML="";
             document.getElementById('tel').innerHTML="";
-            document.getElementById('domicilio').innerHTML="";
+            document.getElementById('domicilios').innerHTML="";
           }
         }
       });
@@ -53,19 +53,19 @@ $(function() {
 
     $("#registrar").click(function() {
         var paciente = new Object();
-        paciente.numero_seguro_social = document.getElementById('numero_seguro_social').value;
         paciente.nombre = document.getElementById('nombre').value;
         paciente.apellido = document.getElementById('apellido').value;
         paciente.domicilio = document.getElementById('domicilio').value;
         paciente.provincia = document.getElementById('provincia').value;
         paciente.telefono = document.getElementById('telefono').value;
         paciente.numero_historial_clinico = document.getElementById('numero_historial_clinico').value;
+        paciente.numero_seguro_social = document.getElementById('numero_seguro_social').value;
         paciente.observaciones = document.getElementById('observaciones').value;
         paciente.dni = document.getElementById('dni').value;
         console.log(JSON.stringify(paciente));
         $.ajax({
           type:'POST',
-          url:"http://18.219.10.95:3000/crearPaciente",
+          url:"http://18.219.10.95:3000/crearPaciente º",
           data: JSON.stringify(paciente),
           headers:{
             "Accept":"application/json",
