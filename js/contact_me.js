@@ -65,7 +65,7 @@ $(function() {
         console.log(JSON.stringify(paciente));
         $.ajax({
           type:'POST',
-          url:"http://18.219.10.95:3000/crearPaciente º",
+          url:"http://18.219.10.95:3000/crearPaciente",
           data: JSON.stringify(paciente),
           headers:{
             "Accept":"application/json",
