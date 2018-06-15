@@ -1,56 +1,59 @@
+function buscarDni(){
+  var dni = document.getElementById('dni1').value;
+  if (dni=="") {
+    document.getElementById('encontrado').value="";
+  }
+  $.ajax({
+    type:'GET',
+    url:"http://18.219.10.95:1706/existePaciente="+dni,
+    success: function(data, success){
+      //console.log(data); //El json de respuesta
+      //console.log(data["data"]); //La data que se recibe
+      if (data["data"].length>0) {
+        //document.getElementById('nombreEncontrado').innerHTML=data["data"][0]["nombre_paciente"];
+        document.getElementById('encontrado').innerHTML="PACIENTE ENCONTRADO";
+        document.getElementById('nombreEncontrado').innerHTML=data["data"][0]["nombre_paciente"];
+        document.getElementById('apellidoEncontrado').innerHTML=data["data"][0]["apellido_paciente"];
+        document.getElementById('idEncontrado').innerHTML=data["data"][0]["id_pacienteint"];
+        document.getElementById('numEncontrado').innerHTML=data["data"][0]["numero_historial_clinico"];
+        document.getElementById('seguroEncontrado').innerHTML=data["data"][0]["numero_seguro_social"];
+        document.getElementById('telefonoEncontrado').innerHTML=data["data"][0]["numero_telefono"];
+        document.getElementById('domicilioEncontrado').innerHTML=data["data"][0]["domicilio_habitual"];
+        document.getElementById('nn').innerHTML=" Nombres y Apellidos: ";
+        document.getElementById('idd').innerHTML=" Id del paciente: ";
+        document.getElementById('num').innerHTML=" N° Historial Medico: ";
+        document.getElementById('seg').innerHTML=" N° Seguro Social: ";
+        document.getElementById('tel').innerHTML=" Telefono: ";
+        document.getElementById('domicilios').innerHTML=" Domicilio: ";
+        document.getElementById('crear').innerHTML="Si desea crear una cita...";
+        document.getElementById('crealo').innerHTML="<a class=''nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger' href='#contact'>Click AQUI</a>";
+      }else {
+        document.getElementById('encontrado').innerHTML="No se encontro al paciente";
+        document.getElementById('crear').innerHTML="Si desea registrarlo...";
+        document.getElementById('crealo').innerHTML="<a class=''nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger' href='#about'>Click AQUI</a>";
+        document.getElementById('nombreEncontrado').innerHTML="";
+        document.getElementById('apellidoEncontrado').innerHTML="";
+        document.getElementById('idEncontrado').innerHTML="";
+        document.getElementById('numEncontrado').innerHTML="";
+        document.getElementById('seguroEncontrado').innerHTML="";
+        document.getElementById('telefonoEncontrado').innerHTML="";
+        document.getElementById('domicilioEncontrado').innerHTML="";
+        document.getElementById('nn').innerHTML="";
+        document.getElementById('idd').innerHTML="";
+        document.getElementById('num').innerHTML="";
+        document.getElementById('seg').innerHTML="";
+        document.getElementById('tel').innerHTML="";
+        document.getElementById('domicilios').innerHTML="";
+      }
+    }
+  });
+}
+function tooltip(id){
+  console.log('Hi');
+}
 $(function() {
 
   var arr;
-
-    $("#buscar").click(function() {
-      var dni = document.getElementById('dni1').value;
-      $.ajax({
-        type:'GET',
-        url:"http://18.219.10.95:1706/existePaciente="+dni,
-        success: function(data, success){
-          //console.log(data); //El json de respuesta
-          //console.log(data["data"]); //La data que se recibe
-          if (data["data"].length>0) {
-            //document.getElementById('nombreEncontrado').innerHTML=data["data"][0]["nombre_paciente"];
-            document.getElementById('encontrado').innerHTML="PACIENTE ENCONTRADO";
-            document.getElementById('nombreEncontrado').innerHTML=data["data"][0]["nombre_paciente"];
-            document.getElementById('apellidoEncontrado').innerHTML=data["data"][0]["apellido_paciente"];
-            document.getElementById('idEncontrado').innerHTML=data["data"][0]["id_pacienteint"];
-            document.getElementById('numEncontrado').innerHTML=data["data"][0]["numero_historial_clinico"];
-            document.getElementById('seguroEncontrado').innerHTML=data["data"][0]["numero_seguro_social"];
-            document.getElementById('telefonoEncontrado').innerHTML=data["data"][0]["numero_telefono"];
-            document.getElementById('domicilioEncontrado').innerHTML=data["data"][0]["domicilio_habitual"];
-            document.getElementById('nn').innerHTML=" Nombres y Apellidos: ";
-            document.getElementById('idd').innerHTML=" Id del paciente: ";
-            document.getElementById('num').innerHTML=" N° Historial Medico: ";
-            document.getElementById('seg').innerHTML=" N° Seguro Social: ";
-            document.getElementById('tel').innerHTML=" Telefono: ";
-            document.getElementById('domicilios').innerHTML=" Domicilio: ";
-            document.getElementById('crear').innerHTML="Si desea crear una cita...";
-            document.getElementById('crealo').innerHTML="<a class=''nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger' href='#contact'>Click AQUI</a>";
-          }else {
-            document.getElementById('encontrado').innerHTML="No se encontro al paciente";
-            document.getElementById('crear').innerHTML="Si desea registrarlo...";
-            document.getElementById('crealo').innerHTML="<a class=''nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger' href='#about'>Click AQUI</a>";
-            document.getElementById('nombreEncontrado').innerHTML="";
-            document.getElementById('apellidoEncontrado').innerHTML="";
-            document.getElementById('idEncontrado').innerHTML="";
-            document.getElementById('numEncontrado').innerHTML="";
-            document.getElementById('seguroEncontrado').innerHTML="";
-            document.getElementById('telefonoEncontrado').innerHTML="";
-            document.getElementById('domicilioEncontrado').innerHTML="";
-            document.getElementById('nn').innerHTML="";
-            document.getElementById('idd').innerHTML="";
-            document.getElementById('num').innerHTML="";
-            document.getElementById('seg').innerHTML="";
-            document.getElementById('tel').innerHTML="";
-            document.getElementById('domicilios').innerHTML="";
-          }
-        }
-      });
-      return false;
-    });
-
 
     $("#registrar").click(function() {
         var paciente = new Object();
