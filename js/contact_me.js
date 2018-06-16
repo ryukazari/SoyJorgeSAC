@@ -1,7 +1,8 @@
 function buscarDni(){
   var dni = document.getElementById('dni1').value;
-  if (dni=="") {
+  if (dni == null) {
     document.getElementById('encontrado').value="";
+    alert('Campo vacio');
   }
   $.ajax({
     type:'GET',
@@ -48,11 +49,15 @@ function buscarDni(){
     }
   });
 }
-function tooltip(id){
-  console.log('Hi');
+function mostrarAyuda()
+{
+ document.getElementById('ayuda').style.visibility = "visible";
+}
+function ocultarAyuda()
+{
+ document.getElementById('ayuda').style.visibility = "hidden";
 }
 $(function() {
-
   var arr;
 
     $("#registrar").click(function() {
