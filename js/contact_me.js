@@ -1,9 +1,6 @@
 function buscarDni(){
   var dni = document.getElementById('dni1').value;
-  if (dni == null) {
-    document.getElementById('encontrado').value="";
-    alert('Campo vacio');
-  }
+  console.log("nel");
   $.ajax({
     type:'GET',
     url:"http://18.219.10.95:1706/existePaciente="+dni,
